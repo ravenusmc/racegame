@@ -26,6 +26,8 @@ def car(x,y):
 
 x = (display_width * 0.30)
 y = (display_height * 0.6)
+#setting variables to change car location.
+x_change = 0
 
 #Setting a boolean flag to False
 crashed = False
@@ -37,6 +39,21 @@ while not crashed:
     #QUIT is from pgame
     if event.type == pygame.QUIT:
       crashed = True 
+
+    #Adding ability to move car.
+    if event.type == pygame.KEYDOWN:
+      if event.key == pygame.K_LEFT:
+        x_change = -5
+      elif event.key == pygame.K_RIGHT:
+        x_change = 5
+
+    if event.type == pygame.KEYUP:
+      if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+        x_change = 0
+
+  #Changing the location of the car.
+  x += x_change
+
 
   gameDisplay.fill(white)
   car(x,y)
