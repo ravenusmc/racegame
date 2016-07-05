@@ -11,6 +11,9 @@ black = (0,0,0)
 white = (255,255,255)
 red = (255,0,0)
 
+#Establishing the car width-I actually found this by trial and error
+car_width = 225
+
 #Games width and height. The dimensions are a Tuple.
 gameDisplay = pygame.display.set_mode((display_width, display_height))
 #Title of the game
@@ -31,15 +34,15 @@ def game_loop():
   x_change = 0
 
   #Setting a boolean flag to False
-  crashed = False
+  gameExit = False
 
-  while not crashed:
+  while not gameExit:
 
     #Gets any event that happens on the screen
     for event in pygame.event.get():
       #QUIT is from pgame
       if event.type == pygame.QUIT:
-        crashed = True 
+        gameExit = True 
 
       #Adding ability to move car.
       if event.type == pygame.KEYDOWN:
@@ -55,9 +58,13 @@ def game_loop():
     #Changing the location of the car.
     x += x_change
 
-
     gameDisplay.fill(white)
     car(x,y)
+
+    #Setting up boundaries 
+    if x > display_width - car_width or x < 0:
+      gameExit = True 
+
     pygame.display.update()
     #How many frames per second.
     clock.tick(60)
