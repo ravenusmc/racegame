@@ -1,5 +1,6 @@
 import pygame 
 import time
+import random
 
 #Inits pygame and all the modules, it needs to be the first line. 
 pygame.init()
@@ -13,7 +14,7 @@ white = (255,255,255)
 red = (255,0,0)
 
 #Establishing the car width-I actually found this by trial and error
-car_width = 100
+car_width = 85
 
 #Games width and height. The dimensions are a Tuple.
 gameDisplay = pygame.display.set_mode((display_width, display_height))
@@ -23,6 +24,11 @@ pygame.display.set_caption('A Bit Racey')
 clock = pygame.time.Clock()
 #assing the car.bmp file to carImg
 carImg = pygame.image.load('car.bmp')
+
+#defining the blocks that car will have to avoid
+def things(thingx, thingy, thingw, thingh, color):
+  pygame.draw.rect(gameDisplay, color, [thingx, thingy, thingw, thingh])
+
 
 #Function to make car show up on the screen. 
 def car(x,y):
@@ -54,6 +60,13 @@ def game_loop():
   #setting variables to change car location.
   x_change = 0
 
+  thing_startx = random.randrange(0, display_width)
+  #We want object to start off the screen that is why it is minus
+  thing_starty = -600
+  thing_speed = 7
+  thing_width = 75
+  thing_height = 75
+
   #Setting a boolean flag to False
   gameExit = False
 
@@ -81,11 +94,18 @@ def game_loop():
     x += x_change
 
     gameDisplay.fill(white)
+    things(thing_startx, thing_starty, thing_width, thing_height, black)
+    thing_starty += thing_speed
     car(x,y)
 
     #Setting up boundaries 
     if x > display_width - car_width or x < 0:
       crash()
+
+    #Keeps blocks keep coming
+    if thing_starty > display_height:
+      thing_starty = 0 - thing_height
+      thing_startx = random.randrange(0, display_width)
 
     pygame.display.update()
     #How many frames per second.
