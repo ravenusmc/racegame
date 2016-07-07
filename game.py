@@ -14,7 +14,7 @@ white = (255,255,255)
 red = (255,0,0)
 
 #Establishing the car width-I actually found this by trial and error
-car_width = 85
+car_width = 95
 
 #Games width and height. The dimensions are a Tuple.
 gameDisplay = pygame.display.set_mode((display_width, display_height))
@@ -23,7 +23,7 @@ pygame.display.set_caption('A Bit Racey')
 #Defining the game clock-for frames per second
 clock = pygame.time.Clock()
 #assing the car.bmp file to carImg
-carImg = pygame.image.load('car.bmp')
+carImg = pygame.image.load('car2.bmp')
 
 #defining the blocks that car will have to avoid
 def things(thingx, thingy, thingw, thingh, color):
