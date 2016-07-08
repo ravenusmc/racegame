@@ -14,7 +14,7 @@ white = (255,255,255)
 red = (255,0,0)
 
 #Establishing the car width-I actually found this by trial and error
-car_width = 95
+car_width = 70
 
 #Games width and height. The dimensions are a Tuple.
 gameDisplay = pygame.display.set_mode((display_width, display_height))
@@ -24,6 +24,11 @@ pygame.display.set_caption('A Bit Racey')
 clock = pygame.time.Clock()
 #assing the car.bmp file to carImg
 carImg = pygame.image.load('car2.bmp')
+
+def things_dodged(count):
+  font = pygame.font.SysFont(None, 25)
+  text = font.render("Dodged: "+str(count), True, black)
+  gameDisplay.blit(text, (0,0))
 
 #defining the blocks that car will have to avoid
 def things(thingx, thingy, thingw, thingh, color):
@@ -63,9 +68,11 @@ def game_loop():
   thing_startx = random.randrange(0, display_width)
   #We want object to start off the screen that is why it is minus
   thing_starty = -600
-  thing_speed = 7
+  thing_speed = 3
   thing_width = 75
   thing_height = 75
+
+  dodged = 0
 
   #Setting a boolean flag to False
   gameExit = False
@@ -97,6 +104,7 @@ def game_loop():
     things(thing_startx, thing_starty, thing_width, thing_height, black)
     thing_starty += thing_speed
     car(x,y)
+    things_dodged(dodged)
 
     #Setting up boundaries 
     if x > display_width - car_width or x < 0:
@@ -106,9 +114,15 @@ def game_loop():
     if thing_starty > display_height:
       thing_starty = 0 - thing_height
       thing_startx = random.randrange(0, display_width)
+      dodged += 1
+      thing_speed += 1
+      #thing_width += (dodged * 1.2)
+
+
 
     if y < thing_starty + thing_height:
-      print('step 1')
+      print('y crossover')
+
       if x > thing_startx and x < thing_startx + thing_width or x + car_width > thing_startx and x + car_width < thing_startx + thing_width:
         print("x cross over")
         crash()
